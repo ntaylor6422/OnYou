@@ -6,54 +6,88 @@
 //
 
 import SwiftUI
+import Neumorphic
 
 extension Color {
-  static let defaultBlue = Color(red: 0, green: 97 / 255.0, blue: 205 / 255.0)
-  static let paleBlue = Color(red: 188 / 255.0, green: 224 / 255.0, blue: 253 / 255.0)
-  static let paleWhite = Color(white: 1, opacity: 179 / 255.0)
+    static let neuBackground = Color(hex: "f0f0f3")
+    static let dropShadow = Color(hex: "aeaec0").opacity(0.4)
+    static let dropLight = Color(hex: "ffffff")
+}
+
+extension Color {
+    init(hex: String) {
+        let scanner = Scanner(string: hex)
+        scanner.scanLocation = 0
+        var rgbValue: UInt64 = 0
+        scanner.scanHexInt64(&rgbValue)
+
+        let r = (rgbValue & 0xff0000) >> 16
+        let g = (rgbValue & 0xff00) >> 8
+        let b = rgbValue & 0xff
+
+        self.init(red: Double(r) / 0xff, green: Double(g) / 0xff, blue: Double(b) / 0xff)
+    }
 }
 
 struct MyButtonStyle: ButtonStyle {
-    var isEnabled: Bool
+    @EnvironmentObject var settings: GameSettings
+    var position: [Int]
+    var isEnabled:Bool
   func makeBody(configuration: Self.Configuration) -> some View {
-    MyButtonStyleView(isEnabled: isEnabled, configuration: configuration)
+    MyButtonStyleView(position:position, isEnabled: isEnabled,configuration: configuration).environmentObject(GameSettings())
   }
 }
 
+
 private extension MyButtonStyle {
   struct MyButtonStyleView: View {
+    var position:[Int]
     var isEnabled:Bool
     // tracks if the button is enabled or not
     // tracks the pressed state
     let configuration: MyButtonStyle.Configuration
+    
 
     var body: some View {
-      return configuration.label
-        .foregroundColor(isEnabled ? .white : .paleWhite)
-        .background(RoundedRectangle(cornerRadius: 5)
-          .fill(isEnabled ? Color.defaultBlue : Color.paleBlue)
-        )
-        .opacity(configuration.isPressed ? 0.8 : 1.0)
-        .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            return configuration.label
+              .frame(width: 70, height: 70, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+              .foregroundColor(.primary)
+              /*.background(
+                  RoundedRectangle(cornerRadius: 10)
+                      .fill(Color.Neumorphic.main).softOuterShadow())
+              .opacity(configuration.isPressed ? 0.8 : 1.0)
+              .scaleEffect(configuration.isPressed ? 0.98 : 1.0).environmentObject(GameSettings())*/
     }
   }
 }
 
 struct ButtonView: View {
-    @State var isEnabled:Bool = true
+    @EnvironmentObject var settings: GameSettings
+    @State var num: Int
+    @State var position:[Int]
+    @State var isEnabled:Bool
+    
     var body: some View {
         Button(action: {
-            print("Hello World")
-            isEnabled = true
+            self.settings.selectedNum = num
+            self.settings.setSelectedPosition(position: position)
+            self.settings.calculate()
         })
         {
-            Text("This is a button!").padding()
-        }.buttonStyle(MyButtonStyle(isEnabled: isEnabled))
+            Text("\(num)").font(.system(size: 20)).frame(width: 40, height: 40, alignment:/*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).foregroundColor(!self.settings.boolMatrix[position[0]][position[1]] ? Color.Neumorphic.secondary : Color.Neumorphic.main)
+        }.frame(width: 60, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).background(RoundedRectangle(cornerRadius: 20).fill(!self.settings.boolMatrix[position[0]][position[1]] ? Color.Neumorphic.main : Color.Neumorphic.secondary).softOuterShadow()).disabled(self.settings.boolMatrix[position[0]][position[1]])
+        
+        /*.softButtonStyle(RoundedRectangle(cornerRadius: 20), mainColor: isEnabled ? Color.Neumorphic.main : Color(#colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)), textColor: isEnabled ? Color.Neumorphic.secondary : .white ,pressedEffect: .hard)*/
+        
+        
+        /*.buttonStyle(MyButtonStyle(position: position, isEnabled: isEnabled)).padding(.horizontal, 10).padding(.bottom, 10).disabled(self.settings.boolMatrix[position[0]][position[1]]).softButtonStyle(Capsule(), pressedEffect: .flat).environmentObject(GameSettings())*/
     }
 }
 
 struct ButtonView_Previews: PreviewProvider {
+    @EnvironmentObject var settings: GameSettings
     static var previews: some View {
-        ButtonView()
+        ButtonView(num: 5, position: [0,0], isEnabled: true)
+            .environmentObject(GameSettings())
     }
 }

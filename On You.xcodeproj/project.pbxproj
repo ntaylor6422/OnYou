@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,6 +25,16 @@
 		01892E7E25E4E75D00FC8736 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E7D25E4E75D00FC8736 /* ButtonView.swift */; };
 		01892E7F25E4E75D00FC8736 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E7D25E4E75D00FC8736 /* ButtonView.swift */; };
 		01892E8025E4E75D00FC8736 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E7D25E4E75D00FC8736 /* ButtonView.swift */; };
+		01892E8525E5D7B900FC8736 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E8425E5D7B900FC8736 /* ColorView.swift */; };
+		01892E8625E5D7BA00FC8736 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E8425E5D7B900FC8736 /* ColorView.swift */; };
+		01892E8725E5D7BA00FC8736 /* ColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E8425E5D7B900FC8736 /* ColorView.swift */; };
+		01892E9025E6301000FC8736 /* Neumorphic in Frameworks */ = {isa = PBXBuildFile; productRef = 01892E8F25E6301000FC8736 /* Neumorphic */; };
+		01892E9525E75B0100FC8736 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E9425E75B0000FC8736 /* GameOver.swift */; };
+		01892E9625E75B0100FC8736 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E9425E75B0000FC8736 /* GameOver.swift */; };
+		01892E9725E75B0100FC8736 /* GameOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E9425E75B0000FC8736 /* GameOver.swift */; };
+		01892E9C25E7789500FC8736 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E9B25E7789400FC8736 /* Models.swift */; };
+		01892E9D25E7789500FC8736 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E9B25E7789400FC8736 /* Models.swift */; };
+		01892E9E25E7789500FC8736 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01892E9B25E7789400FC8736 /* Models.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +71,9 @@
 		01892E6F25E4830600FC8736 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		01892E7625E4BFB500FC8736 /* ConnectionSocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionSocket.swift; sourceTree = "<group>"; };
 		01892E7D25E4E75D00FC8736 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		01892E8425E5D7B900FC8736 /* ColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorView.swift; sourceTree = "<group>"; };
+		01892E9425E75B0000FC8736 /* GameOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOver.swift; sourceTree = "<group>"; };
+		01892E9B25E7789400FC8736 /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +81,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01892E9025E6301000FC8736 /* Neumorphic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -120,6 +134,9 @@
 				01892E6F25E4830600FC8736 /* GameView.swift */,
 				01892E7625E4BFB500FC8736 /* ConnectionSocket.swift */,
 				01892E7D25E4E75D00FC8736 /* ButtonView.swift */,
+				01892E8425E5D7B900FC8736 /* ColorView.swift */,
+				01892E9425E75B0000FC8736 /* GameOver.swift */,
+				01892E9B25E7789400FC8736 /* Models.swift */,
 			);
 			path = "On You";
 			sourceTree = "<group>";
@@ -166,6 +183,9 @@
 			dependencies = (
 			);
 			name = "On You";
+			packageProductDependencies = (
+				01892E8F25E6301000FC8736 /* Neumorphic */,
+			);
 			productName = "On You";
 			productReference = 01892E3725E378F700FC8736 /* On You.app */;
 			productType = "com.apple.product-type.application";
@@ -237,6 +257,9 @@
 				Base,
 			);
 			mainGroup = 01892E2E25E378F700FC8736;
+			packageReferences = (
+				01892E8E25E6300F00FC8736 /* XCRemoteSwiftPackageReference "neumorphic" */,
+			);
 			productRefGroup = 01892E3825E378F700FC8736 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -281,10 +304,13 @@
 			files = (
 				01892E3D25E378F700FC8736 /* ContentView.swift in Sources */,
 				01892E6925E39FBA00FC8736 /* MainView.swift in Sources */,
+				01892E8525E5D7B900FC8736 /* ColorView.swift in Sources */,
 				01892E7E25E4E75D00FC8736 /* ButtonView.swift in Sources */,
 				01892E7025E4830600FC8736 /* GameView.swift in Sources */,
 				01892E3B25E378F700FC8736 /* On_YouApp.swift in Sources */,
+				01892E9C25E7789500FC8736 /* Models.swift in Sources */,
 				01892E7725E4BFB600FC8736 /* ConnectionSocket.swift in Sources */,
+				01892E9525E75B0100FC8736 /* GameOver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,7 +318,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01892E8625E5D7BA00FC8736 /* ColorView.swift in Sources */,
 				01892E4D25E378FE00FC8736 /* On_YouTests.swift in Sources */,
+				01892E9625E75B0100FC8736 /* GameOver.swift in Sources */,
+				01892E9D25E7789500FC8736 /* Models.swift in Sources */,
 				01892E7125E4830700FC8736 /* GameView.swift in Sources */,
 				01892E7F25E4E75D00FC8736 /* ButtonView.swift in Sources */,
 				01892E7825E4BFB600FC8736 /* ConnectionSocket.swift in Sources */,
@@ -304,7 +333,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01892E8725E5D7BA00FC8736 /* ColorView.swift in Sources */,
 				01892E5825E378FE00FC8736 /* On_YouUITests.swift in Sources */,
+				01892E9725E75B0100FC8736 /* GameOver.swift in Sources */,
+				01892E9E25E7789500FC8736 /* Models.swift in Sources */,
 				01892E7225E4830700FC8736 /* GameView.swift in Sources */,
 				01892E8025E4E75D00FC8736 /* ButtonView.swift in Sources */,
 				01892E7925E4BFB600FC8736 /* ConnectionSocket.swift in Sources */,
@@ -606,6 +638,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		01892E8E25E6300F00FC8736 /* XCRemoteSwiftPackageReference "neumorphic" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/costachung/neumorphic/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.5;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		01892E8F25E6301000FC8736 /* Neumorphic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 01892E8E25E6300F00FC8736 /* XCRemoteSwiftPackageReference "neumorphic" */;
+			productName = Neumorphic;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 01892E2F25E378F700FC8736 /* Project object */;
 }
