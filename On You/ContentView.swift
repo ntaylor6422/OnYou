@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import Neumorphic
 
 struct ContentView: View {
     @EnvironmentObject var settings: GameSettings
+    @EnvironmentObject var socket: GameSocketModel
 
     var body: some View {
         ZStack {
-            if self.settings.view == false {
+            Color.Neumorphic.main.ignoresSafeArea()
+            if self.settings.view == "Main" {
                 Main()
-            } else {
+            } else if self.settings.view == "Game" {
                 GameView()
+            } else {
+                GameOver()
             }
         }.environmentObject(settings)
     }
@@ -24,6 +29,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     @EnvironmentObject var settings: GameSettings
     static var previews: some View {
-        ContentView().environmentObject(GameSettings())
+        ContentView().environmentObject(GameSettings()).environmentObject(GameSocketModel())
     }
 }
