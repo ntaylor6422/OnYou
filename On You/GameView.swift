@@ -6,11 +6,12 @@
 //
 
 import SwiftUI
+import Neumorphic
 
 struct GameView: View {
     
     @EnvironmentObject var settings: GameSettings
-    @StateObject private var model = GameSocketModel()
+    @EnvironmentObject var model: GameSocketModel
     
     private let operands:[String] = ["+", "-", "x", "/"]
     @State private var selectedOpperand:String = ""
@@ -30,15 +31,17 @@ struct GameView: View {
     }
     
     private func opClick(op: String) -> Void {
-        self.calculate(operand: op)
+        self.settings.operand = op
     }
     
-    private func individualCell(value: Int) -> some View {
-        return Button(action: {
+    private func individualCell(value: Int, matrix: [Int]) -> some View {
+        return ButtonView(num: value, position: matrix, isEnabled: self.settings.boolMatrix[matrix[0]][matrix[1]])
+            
+            /*Button(action: {
             self.handleClick(number: value)
         }, label: {
             Text("\(value)").font(.title2)
-        }).frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).padding()
+        }).frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).padding()*/
     }
     
     private func opCell(operand: String) -> some View {
@@ -49,12 +52,12 @@ struct GameView: View {
         }).frame(width: 25, height: 25, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).padding()
     }
     
-    private func makeNumRow(cols: [Int]) -> some View {
+    private func makeNumRow(cols: [Int], index: Int) -> some View {
         return HStack {
-            ForEach(cols, id:\.self) { col in
-                individualCell(value: col)
+            ForEach(cols.indices) { n in
+                individualCell(value: cols[n], matrix: [index, n])
             }
-        }
+        }.padding()
     }
     
     private func makeOpRow(cols: [String]) -> some View {
@@ -66,21 +69,21 @@ struct GameView: View {
     }
     
     private func calculate(operand: String) -> Void {
-            var result  = 0
-        let currentNum = Int(displayedNumber)!
-        
+        var currentResult = Int(self.settings.result)!
+        let currentNumber = self.settings.selectedNum
 
             if operand == "+" {
-                result = currentNum + selectedNumber
+                currentResult += currentNumber
             } else if operand == "-" {
-                result = currentNum - selectedNumber
+               currentResult -= currentNumber
             } else if operand == "*" {
-                result = currentNum * selectedNumber
+                currentResult *= currentNumber
             } else {
-                result = currentNum / selectedNumber
+                currentResult /= currentNumber
             }
-
-            displayedNumber = "\(result)"
+        
+        self.settings.selectedNum = 0
+        self.settings.result = "\(currentResult)"
     }
     
     struct GradientButtonStyle: ButtonStyle {
@@ -96,39 +99,41 @@ struct GameView: View {
 
     var body: some View {
         ZStack {
-            Color.white
+            Color.Neumorphic.main.ignoresSafeArea()
             VStack {
-                Text("\(displayedNumber)").padding().font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).frame(width: 200, height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
+                Text("$\(self.settings.result)").padding().font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/).frame(width: 200, height: 80, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).background(RoundedRectangle(cornerRadius: 10).fill(Color.Neumorphic.main).softOuterShadow()).padding()
                 HStack {
                     Button(action: {self.opClick(op: "+")}) {
-                        Image(systemName: "plus.square")
-                    }.padding(.trailing)
+                        Image(systemName: "plus.square").font(.system(size: 40)).foregroundColor(Color.Neumorphic.secondary).frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).background(RoundedRectangle(cornerRadius: 10).fill(Color.Neumorphic.main).softOuterShadow()).padding()
+                    }
                     Button(action: {self.opClick(op: "-")}) {
-                        Image(systemName: "minus.square")
+                        Image(systemName: "minus.square").font(.system(size: 40)).foregroundColor(Color.Neumorphic.secondary).frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).background(RoundedRectangle(cornerRadius: 10).fill(Color.Neumorphic.main).softOuterShadow())
                     }.padding(.trailing)
                     Button(action: {self.opClick(op: "*")}) {
-                        Image(systemName: "multiply.square")
+                        Image(systemName: "multiply.square").font(.system(size: 40)).foregroundColor(Color.Neumorphic.secondary).frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).background(RoundedRectangle(cornerRadius: 10).fill(Color.Neumorphic.main).softOuterShadow())
                     }.padding(.trailing)
                     Button(action: {self.opClick(op: "/")}) {
-                        Image(systemName: "divide.square")
+                        Image(systemName: "divide.square").font(.system(size: 40)).foregroundColor(Color.Neumorphic.secondary).frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).background(RoundedRectangle(cornerRadius: 10).fill(Color.Neumorphic.main).softOuterShadow())
                     }
                 }.frame(width: 300, height: 60, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/).font(.largeTitle)
-               ForEach(self.settings.matrix, id:\.self) { row in self.makeNumRow(cols: row)
+                Spacer()
+                ForEach(self.model.matrix.indices, id:\.self) { i in self.makeNumRow(cols: self.model.matrix[i], index: i)
                     
-                }.padding()
+                }
+                Spacer()
                 Button(action: {
                     self.settings.clearGame()
                 }) {
-                        Text("Cancel Game")
-                }.buttonStyle(GradientButtonStyle())
+                    Text("Cancel Game").foregroundColor(Color.Neumorphic.secondary)
+                }.frame(width: 300, height: 50, alignment:.center ).background(RoundedRectangle(cornerRadius: 10).fill(Color.Neumorphic.main).softOuterShadow()).padding()
             }
-        }.environmentObject(settings)
+        }.environmentObject(settings).environmentObject(model)
     }
 }
 
 struct GameView_Previews: PreviewProvider {
     @EnvironmentObject var settings: GameSettings
     static var previews: some View {
-        GameView().environmentObject(GameSettings())
+        GameView().environmentObject(GameSettings()).environmentObject(GameSocketModel())
     }
 }
